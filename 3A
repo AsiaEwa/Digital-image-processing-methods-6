@@ -1,0 +1,86 @@
+clear all;
+close all;
+clc
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%ZADAWANE
+A=imread('A1.png');
+%maska zadawana przez użytkownika
+MASK=[1 3 4 3 1;
+     3 4 8 4 2;
+     4 8 16 8 3;
+     3 4 8 4 2;
+     1 3 4 3 1];
+% MASK=[1 1 1
+%       1 1 1
+%       1 1 1];
+% MASK=[1 2 1;
+%       2 -6 2;
+%       1 2 1];
+% MASK=[1 1 1 1 1;
+%       1 1 1 1 1;
+%       1 1 1 1 1;
+%       1 1 1 1 1;
+%       1 1 1 1 1];
+MASK=[0 1 1 1 0;
+      1 1 1 1 1;
+      1 1 1 1 1;
+      1 1 1 1 1;
+      0 1 1 1 0];
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+B=rgb2gray(A);
+
+C=fft2(B);
+%Przesunięcie widma - obliczenie modułu i zamiana na skalę logarytmiczną.
+D=log(abs(fftshift(C)));
+
+[wym_x_mask,wym_y_mask]=size(MASK);[wym_x,wym_y]=size(B);
+a=round((wym_x-wym_x_mask)/2);
+b=round((wym_y-wym_y_mask)/2);
+sub_MASK=zeros(size(B));
+for i=1:1:wym_x_mask
+    for j=1:1:wym_y_mask
+        sub_MASK(i+a,j+b)=MASK(i,j);
+    end
+end
+
+
+MASK_fft=fft2(sub_MASK);
+MASK_abs=log(abs(fftshift(MASK_fft))+1);
+
+figure(1)
+
+subplot(231) 
+imshow(B)
+
+subplot(232)
+imshow(uint8(255*(MASK+1)/max(max(MASK))))
+
+subplot(233)
+E=ifft2(C.*MASK_fft);
+[wym_x_E,wym_y_E]=size(E);
+E=[E(round(wym_x_E/2)+1:wym_x_E,round(wym_y_E/2)+1:wym_y_E) E(round(wym_x_E/2)+1:wym_x_E,1:round(wym_y_E/2));
+   E(1:round(wym_x_E/2),round(wym_y_E/2)+1:wym_y_E) E(1:round(wym_x_E/2),1:round(wym_y_E/2))];
+E=uint8(255*E/max(max(E)));
+imshow(E);
+
+subplot(234) 
+imagesc(D)
+axis off
+
+subplot(235)
+imagesc(MASK_abs)
+axis off
+
+subplot(236)
+E_abs=log(abs(fftshift(C.*MASK_fft))+1);
+imagesc(E_abs);
+axis off
+
+figure(2)
+imshow(B)
+figure(3)
+imshow(E);
+clear all;
+clc
