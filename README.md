@@ -1,54 +1,51 @@
 # Digital-image-processing-methods-6
 
-# Digital-image-processing-methods-5-Public
 ## operations using FFT - Fourier transform
 
 The purpose of the Fourier transform is to decompose a periodic function into a series of periodic functions in such a way that the resulting transform gives an indication of how the individual frequencies contribute to the original function. Discrete values will appear much more often in image processing. For this purpose, it is more appropriate to use the discrete Fourier transform. However, for practical reasons, the fast Fourier transform - FFT will be most often used in image processing.
 
 Recognizing text, especially handwritten text, seems to be quite a challenge. It has long been known that artificial neural networks are used to read handwriting. However, when analyzing the image, we can support computers by properly preparing the material for analysis.
-In order to introduce the use of FFT in identifying letters, we will focus on the letter A. In the first step, let's see what the effect on the image after the Fourier transform is
-
-![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/4a914151-0d8b-4ad7-a929-549c9d5cb2cf)
+In order to introduce the use of FFT in identifying letters, we will focus on the letter A. In the first step, let's see what the effect on the image after the Fourier transform is.
 
 As you can see, each line introduces a distinct change in the FFT image
 
-![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/c08373fa-f143-4a9a-a45d-949fa4f5bf48)
+![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/1b15dabf-8cfb-4cf8-9466-9957b033db0a)
 
 In the next step, we will check how much the shape of the letters affects the FFT image.
 
-![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/43cb52be-64e8-4d8e-a8ca-6b5188ba9243)
+![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/565b7cf7-1a02-418a-afd3-bab09ac01199)
 
 As the spectrum between different writing styles differs, there are some similarities.
 
 In the next step, let's check what effect the noise of the original image has on the FFT image.
 
-![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/6ab7287d-65d7-4a2f-a6e0-8b77f4ea794e)
+![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/e0955b12-f39c-41a7-8833-9ce8f3c3b0e9)
 
 The FFT1.m script checks what the previously prepared letters created in paint look like.
 
-![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/735036bc-68b8-4d91-aec9-27f7dc871ca9)
+![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/d5bef1bd-510c-431b-9e3b-c6b6d183be6b)
 
 Analyzing the above example, you can notice the similarity in the FFT images. There is a similar distribution of lighter lines for the same letter. The light lines for the third example (letters in the written version) are the least visible. The second FFT image shows additional dark lines at a 45-degree angle.
 In the example given, the star is always clear, but the noise brightens the entire image space. The clear image is clear and the star's propagation lines are noticeable. The more noise there is, the more focused the stars are (no lines spreading from the star).
 
 Image ghost: "script1" - load the image 'lena.png'.
   
-![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/f41ad22a-cf9a-4659-8621-5eebf328dd04)
+![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/3c71f6df-f3cb-480c-ac7d-a247b9eab3a2)
 
-![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/3b24df15-a66d-4bb8-9ceb-90b5ade4e217)
+![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/e18ead6c-8d34-42c5-b5d5-7ed50b671d2a)
 
 The running program loads the image and transforms it into a black and white image, defines the image dimensions and creates x and y matrices based on them. Then it creates an FFT matrix of the black and white image and creates another matrix by shifting the FFT spectrum, calculating its modulus and converting the scale to logarithmic. Then comes the creation of charts and displaying the results of the program.
 In the case of geometric images, there is a relationship between the number of lines with higher values and the number of edges in the image. For non-geometric images, many lines can be seen, but there are no clear peaks in the transform values, which makes it difficult to interpret what the image was based on the spectrum.
 
-![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/b975f4f3-73a9-465a-8ab1-9de3564c1f1f)
+![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/5865a404-a2bf-4e02-97dc-ed61d71b0d63)
 
-![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/19162c0a-5289-4444-a735-ee6d0e17c633)
+![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/a78ed4ca-b2b3-41e6-866c-a875c785c8ea)
 
-![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/81ccbc45-88b0-4c5f-92a5-ca797ab4dd1f)
+![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/c1593fc4-f456-45f5-82aa-eb12365ae9b1)
 
 the resulting image without using the logarithm function
 
-![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/4f814d65-47a9-4f39-ba7e-9e9d045a4713)
+![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/e8595444-35c2-4224-835b-dec9efedc382)
 
 Without changing the scale to logarithmic, it is not possible to observe changes in the image spectrum because all changes are visible in one small point, too large an area is observed.
 
@@ -59,30 +56,30 @@ The image to be processed and masks used to implement filters are loaded in the 
 
 Mask 1:
 
-![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/7d45dbfa-9c46-4791-aa1c-3f6863500c02)
+![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/9c352a19-36ac-4987-a7bd-f111c3eda83e)
 
 After a mask similar to a Gaussian filter, the edges of the letter are smoothed and the lines of the letter are thickened.
 
 Mask 2:
 
-![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/92c5f734-6e06-42cc-91f4-b36fc318a954)
+![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/ba885a33-4eef-4eca-bae4-7c8d1ff5d921)
 
 After the averaging mask, the letter image has blurry edges.
 Mask 3:
 
-![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/df1ae41a-ea01-4951-8194-1dce8455a708)
+![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/80a6a629-b442-4f04-8228-31405eadaf72)
 
 After applying this filter mask, you can see the background color change to gray, and the letter itself no longer consists of continuous lines. Each line of the letter now consists of an inner line and a line surrounding that line.
 2. Test the filter masks from the previous laboratory (masks will be provided by the instructor). Attach the resulting images in the report.
 
 Square filter:
 
-![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/261be141-c694-49e8-8a9d-a8d68c8c0235)
+![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/b8b4687e-159e-4dee-bef5-54b7d29342cc)
 
 Blurs the edges of the letter lines.
 Circular filter:
 
-![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/ceb71c25-0e6d-4a62-be5a-2efabd1df7c5)
+![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/9d50dc68-9cc6-46d4-a844-a60f5c79b360)
 
 The filter blurs the edges of the lines but thickens them.
 
@@ -93,22 +90,22 @@ Bicubic interpolation uses a mechanism based on determining the FFT spectrum of 
 
 First, the script creates an image from random pixels and enlarges it 4 times. Then it transforms it to FFT and shifts the spectrum, calculates the modulus and changes the scale to logarithmic. Then a b-sline matrix is created and displayed. Subsequently, this matrix is supplemented with zeros to the dimensions of the processed image and is also displayed. At the end, the results of the program are displayed, including image interpolation. The resulting image has smooth color transitions and has much smaller pixels. The resulting colors are the result of the colors of adjacent pixels. The main shapes have been preserved in the painting
 
-![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/b2af458d-cfca-4a1f-809a-6de3f94a46c4)
+![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/38a3e08c-4bee-40f8-8f25-a8444ee2e4d0)
 
-![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/fb834d8c-0dc7-407a-928d-0bf9176429c4)
+![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/1c2eb51d-5555-4a79-bb36-ac96e2a83eca)
 
 The 4B script works very similarly to script 4A, with a slight change in that it loads a ready-made image instead of creating it from random pixels. In this case, you can also see color alignment and blurred edges in the image, but no pixel edges are visible in the resulting image
 
-![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/bd4c88ae-607f-4c62-b960-5d951892074d)
+![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/e9ca58c2-017c-4db6-949d-3cacd1760b5f)
 
-![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/33e2b898-50a2-41e0-922f-5e7dc729e44c)
+![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/10fe3b19-1632-4fa5-a141-4f672e377af7)
 
 Dleta_x = 0.2 and delta_y = 0.2
 
-![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/0314c2c5-86f6-4ca0-865a-b109f07909c7)
+![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/751eea1d-fa30-468e-a533-0d7e6390fbb4)
 
 Dleta_x = 5 and delta_y = 5
 
-![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/9252e82c-d7d7-4ae7-a08b-a206071e2521)
+![image](https://github.com/AsiaEwa/Digital-image-processing-methods-6/assets/101841759/7e995cc2-7733-46a2-9be6-a36d063ac3bf)
 
 It can be seen that the larger the delta_x and delta_y parameters, the less edge blurring and the more the image retains its original form and the less smooth the color transitions between pixels. The smaller the parameters, the more the opposite effect.
