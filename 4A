@@ -1,0 +1,120 @@
+clear all
+close all
+clc
+
+%utworzenie zdjęcia i jego przybliżonej 4-ro krotnie kopii
+wym_x=10;
+wym_y=10;
+for i=1:wym_x
+    for j=1:wym_y
+        A(i,j)=rand;
+    end
+end
+
+zoom=4;
+A1=A(1:wym_x,1:wym_y);
+for i=1:size(A1,1)
+    for j=1:size(A1,2)
+        B(i*zoom-zoom+1:i*zoom,j*zoom-zoom+1:j*zoom)=A1(i,j);
+    end
+end
+
+C=fft2(B);
+%Przesunięcie widma, obliczenie modułu i zamiana na skalę logarytmiczną.
+D=log(abs(fftshift(C)));
+
+%B-spline
+%parametry
+delta_x=1;
+delta_y=1;
+temp_x=2;
+temp_y=2;
+dxy=0.1;
+
+%Utworzenie macierzy b-sline do interpolacji dwusześciennej
+licznik_x=0;
+for u=-temp_x+dxy:dxy:temp_x
+    licznik_x=licznik_x+1;
+    licznik_y=0;
+    for v=-temp_y+dxy:dxy:temp_y
+        licznik_y=licznik_y+1;
+        if u==0
+            b_spline(licznik_x,licznik_y)=b_spline(licznik_x-1,licznik_y);
+        elseif v==0
+            b_spline(licznik_x,licznik_y)=b_spline(licznik_x,licznik_y-1);
+        else
+            % wzór na b_spline
+            b_spline(licznik_x,licznik_y)=((sin(pi*u*delta_x)*sin(pi*v*delta_y))/((pi*u*delta_x)*(pi*v*delta_y)))^4;
+        end
+    end
+end
+
+subplot(121)
+temp_x=-temp_x+dxy:dxy:temp_x;
+temp_y=-temp_y+dxy:dxy:temp_y;
+surf(temp_x,temp_y,b_spline,'EdgeColor','none');
+title('Funkcja b-spline');
+
+%wypełnienie zerami macierzy b-spline do wymiaru obrazka
+[wym_x_b_spline,wym_y_b_spline]=size(b_spline);
+[wym_x,wym_y]=size(B);
+a=round((wym_x-wym_x_b_spline)/2);
+b=round((wym_y-wym_y_b_spline)/2);
+sub_b_spline=zeros(size(B));
+for i=1:1:wym_x_b_spline
+    for j=1:1:wym_y_b_spline
+        sub_b_spline(i+a,j+b)=b_spline(i,j);
+    end
+end
+subplot(122)
+temp_x=1:1:wym_y;
+temp_y=1:1:wym_x;
+surf(temp_x,temp_y,sub_b_spline,'EdgeColor','none');
+title('B-spline o wymiarze obrazka');
+
+b_spline_fft=fft2(sub_b_spline);
+b_spline_abs=log(abs(fftshift(b_spline_fft))+1);
+
+
+figure(2)
+
+subplot(231) 
+imagesc(B);
+title('Obrazek oryginalny powiększony');
+
+subplot(232)
+imagesc(uint8(20*(b_spline+1)));
+title('B-spline')
+
+subplot(233)
+E=ifft2(C.*b_spline_fft);
+[wym_x_E,wym_y_E]=size(E);
+E=[E(round(wym_x_E/2)+1:wym_x_E,round(wym_y_E/2)+1:wym_y_E) E(round(wym_x_E/2)+1:wym_x_E,1:round(wym_y_E/2));
+   E(1:round(wym_x_E/2),round(wym_y_E/2)+1:wym_y_E) E(1:round(wym_x_E/2),1:round(wym_y_E/2))];
+E=uint8(255*E/max(max(E)));
+imagesc(E);
+title('Obrazek interpolowany');
+
+subplot(234) 
+imagesc(D)
+title('Widmo oryginału');
+axis off
+
+subplot(235)
+imagesc(b_spline_abs)
+title('Widmo b-splina');
+axis off
+
+subplot(236)
+E_abs=log(abs(fftshift(C.*b_spline_fft))+1);
+imagesc(E_abs);
+title('Iloczyn widm');
+axis off
+
+figure(3)
+subplot(121)
+imagesc(B)
+subplot(122)
+imagesc(E);
+clear all;
+clc
