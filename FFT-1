@@ -1,0 +1,53 @@
+clear all;
+close all;
+clc
+A1=imread('A1.png');
+A2=imread('1A1.png');
+A3=imread('2A1.png');
+B1=rgb2gray(A1);
+B2=rgb2gray(A2);
+B3=rgb2gray(A3);
+
+C1=fft(B1);
+C2=fft(B2);
+C3=fft(B3);
+
+Ca1=fft2(B1);
+Ca2=fft2(B2);
+Ca3=fft2(B3);
+
+%Caa=abs(Ca);
+Cas1=fftshift(Ca1);
+Cas2=fftshift(Ca2);
+Cas3=fftshift(Ca3);
+
+Clog1 = log(1+abs(Cas1));
+Clog2 = log(1+abs(Cas2));
+Clog3 = log(1+abs(Cas3));
+
+D=fft2(B1);
+
+figure(1)
+
+subplot(321) 
+imshow(B1)
+
+subplot(322) 
+imshow(Clog1,[])
+
+%----
+subplot(323) 
+imshow(B2)
+
+subplot(324) 
+imshow(Clog2,[])
+
+%----
+subplot(325) 
+imshow(B3)
+
+subplot(326) 
+imshow(Clog3,[])
+
+%subplot(233) 
+%imshow(D)
