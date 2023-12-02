@@ -1,0 +1,32 @@
+clear all;
+close all;
+clc
+%przetestuj działanie skryptu na wybranych obrazach: lena.png, obrazek.jpg
+%romb.png, prostokat.png, kolo.png, gwiazdka.png 
+A=imread('lena.png');
+B=rgb2gray(A);
+wym_x=size(B,1);
+wym_y=size(B,2);
+x=1:1:wym_x;
+y=1:1:wym_y;
+
+C=fft2(B);
+%Przesunięcie widma, obliczenie modułu i zamiana na skalę logarytmiczną.
+%Zamiana na skalę logarytmiczną jest konieczne, aby lepiej zobrazować widmo
+%obrazu.
+D=log(abs(fftshift(C)));
+
+figure(1)
+subplot(131) 
+imshow(B)
+subplot(132)
+imagesc(D)
+subplot(133)
+E=uint8(ifft2(C));
+
+
+imshow(E);
+figure(2)
+surf(x,y,D,'EdgeColor','none')
+clear all;
+clc
